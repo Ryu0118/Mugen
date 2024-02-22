@@ -64,7 +64,10 @@ public struct MugenNotificationCenter {
 
 public enum DataSource {
     case userDefaults(UserDefaults)
-    case fileStorage(url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])
+    case fileStorage(
+        url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("notificationRequests")
+    )
 }
 
 extension UNNotificationTrigger {
