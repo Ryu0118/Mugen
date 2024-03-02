@@ -64,7 +64,7 @@ struct NotificationStorage {
             guard url.isFileURL else {
                 throw NotificationStorageError.notFileURL
             }
-            guard FileManager.default.fileExists(atPath: url.absoluteString) else {
+            guard FileManager.default.fileExists(atPath: url.path) else {
                 return [:]
             }
 
