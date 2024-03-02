@@ -14,8 +14,8 @@ public struct MugenNotificationCenter {
         self.storage = NotificationStorage(dataSource: dataSource)
     }
 
-    public func add(_ request: UNNotificationRequest) throws {
-        userNotificationCenter.add(request)
+    public func add(_ request: UNNotificationRequest) async throws {
+        try await userNotificationCenter.add(request)
         try storage.append(request)
     }
 
