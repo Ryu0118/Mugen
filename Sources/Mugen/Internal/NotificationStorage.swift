@@ -17,7 +17,7 @@ struct NotificationStorage {
 
     func remove(withIdentifiers identifiers: [String]) throws {
         let pendingRequests = try get()
-        let specifiedRequests = pendingRequests.filter { identifiers.contains($0.value.identifier) }
+        let specifiedRequests = pendingRequests.filter { !identifiers.contains($0.value.identifier) }
         try save(specifiedRequests)
     }
 
