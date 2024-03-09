@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Mugen",
     platforms: [
-        .iOS(.v12),
+        .iOS(.v13),
         .macOS(.v12),
         .macCatalyst(.v13),
         .tvOS(.v12),
