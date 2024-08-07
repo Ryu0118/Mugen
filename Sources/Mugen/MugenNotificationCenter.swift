@@ -2,7 +2,7 @@ import Foundation
 import UserNotifications
 import CoreLocation
 
-public struct MugenNotificationCenter {
+public struct MugenNotificationCenter: @unchecked Sendable {
     let userNotificationCenter: UNUserNotificationCenter
     let storage: NotificationStorage
 
@@ -62,7 +62,7 @@ public struct MugenNotificationCenter {
     }
 }
 
-public enum DataSource {
+public enum DataSource: @unchecked Sendable {
     case userDefaults(UserDefaults)
     case fileStorage(
         url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
