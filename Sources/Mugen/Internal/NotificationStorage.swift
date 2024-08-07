@@ -31,7 +31,6 @@ struct NotificationStorage {
     }
 
     func save(_ requests: [Date: UNNotificationRequest]) throws {
-        let now = Date()
         let data = try requests.reduce(into: [Date: Data]()) { partialResult, request in
             partialResult.updateValue(
                 try NSKeyedArchiver.archivedData(
