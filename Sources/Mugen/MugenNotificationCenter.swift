@@ -3,7 +3,9 @@ import UserNotifications
 import CoreLocation
 
 public struct MugenNotificationCenter: Sendable {
-    let userNotificationCenter: UNUserNotificationCenter
+    @_spi(Internal)
+    public let userNotificationCenter: UNUserNotificationCenter
+
     let storage: NotificationStorage
 
     public init(
