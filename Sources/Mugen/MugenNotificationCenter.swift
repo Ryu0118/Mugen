@@ -2,7 +2,7 @@ import Foundation
 import UserNotifications
 import CoreLocation
 
-public struct MugenNotificationCenter: @unchecked Sendable {
+public struct MugenNotificationCenter: Sendable {
     let userNotificationCenter: UNUserNotificationCenter
     let storage: NotificationStorage
 
@@ -62,13 +62,16 @@ public struct MugenNotificationCenter: @unchecked Sendable {
     }
 }
 
-public enum DataSource: @unchecked Sendable {
+public enum DataSource: Sendable {
     case userDefaults(UserDefaults)
     case fileStorage(
         url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("notificationRequests")
     )
 }
+
+extension UserDefaults: @unchecked Sendable {}
+extension UNUserNotificationCenter: @unchecked Sendable {}
 
 extension UNNotificationTrigger {
     func isExpired(for addedDate: Date) -> Bool {
