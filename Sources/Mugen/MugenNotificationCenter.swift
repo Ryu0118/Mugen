@@ -64,7 +64,7 @@ public struct MugenNotificationCenter: Sendable {
     }
 }
 
-public enum DataSource: Sendable {
+public enum DataSource {
     case userDefaults(UserDefaults)
     case fileStorage(
         url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
