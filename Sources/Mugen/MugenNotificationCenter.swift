@@ -72,8 +72,6 @@ public enum DataSource {
     )
 }
 
-extension UserDefaults: @unchecked Sendable {}
-extension UNUserNotificationCenter: @unchecked Sendable {}
 
 extension UNNotificationTrigger {
     func isExpired(for addedDate: Date) -> Bool {
