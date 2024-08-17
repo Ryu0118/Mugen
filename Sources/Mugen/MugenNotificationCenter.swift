@@ -2,9 +2,10 @@ import Foundation
 import UserNotifications
 import CoreLocation
 
-public struct MugenNotificationCenter {
+public struct MugenNotificationCenter: Sendable {
     @_spi(Internal)
     public let userNotificationCenter: UNUserNotificationCenter
+
     let storage: NotificationStorage
 
     public init(
@@ -70,6 +71,7 @@ public enum DataSource {
             .appendingPathComponent("notificationRequests")
     )
 }
+
 
 extension UNNotificationTrigger {
     func isExpired(for addedDate: Date) -> Bool {

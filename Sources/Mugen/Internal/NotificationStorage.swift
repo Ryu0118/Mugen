@@ -1,14 +1,18 @@
 import Foundation
 import UserNotifications
 
-struct NotificationStorage {
+struct NotificationStorage: @unchecked Sendable {
     private enum Const {
         static let notificationRequests = "notificationRequests"
     }
 
     let dataSource: DataSource
 
+    private let lock = NSRecursiveLock()
+
     func append(_ request: UNNotificationRequest) throws {
+        lock.lock()
+        defer { lock.unlock() }
         let now = Date()
         var pendingRequests = try get()
         pendingRequests.updateValue(request, forKey: now)
@@ -16,12 +20,16 @@ struct NotificationStorage {
     }
 
     func remove(withIdentifiers identifiers: [String]) throws {
+        lock.lock()
+        defer { lock.unlock() }
         let pendingRequests = try get()
         let specifiedRequests = pendingRequests.filter { !identifiers.contains($0.value.identifier) }
         try save(specifiedRequests)
     }
 
     func removeAll() throws {
+        lock.lock()
+        defer { lock.unlock() }
         switch dataSource {
         case .userDefaults(let userDefaults):
             userDefaults.set(nil, forKey: Const.notificationRequests)
@@ -31,6 +39,8 @@ struct NotificationStorage {
     }
 
     func save(_ requests: [Date: UNNotificationRequest]) throws {
+        lock.lock()
+        defer { lock.unlock() }
         let data = try requests.reduce(into: [Date: Data]()) { partialResult, request in
             partialResult.updateValue(
                 try NSKeyedArchiver.archivedData(
@@ -52,6 +62,8 @@ struct NotificationStorage {
     }
 
     func get() throws -> [Date: UNNotificationRequest] {
+        lock.lock()
+        defer { lock.unlock() }
         switch dataSource {
         case .userDefaults(let userDefaults):
             guard let combinedData = userDefaults.data(forKey: Const.notificationRequests) else {
@@ -73,6 +85,8 @@ struct NotificationStorage {
     }
 
     private func decode(combinedData: Data) throws -> [Date: UNNotificationRequest] {
+        lock.lock()
+        defer { lock.unlock() }
         let dataDictionary = try JSONDecoder().decode(
             [Date: Data].self,
             from: combinedData
@@ -92,7 +106,7 @@ struct NotificationStorage {
     }
 }
 
-public enum NotificationStorageError: Error {
+public enum NotificationStorageError: Error, Sendable {
     case notFileURL
 }
 
