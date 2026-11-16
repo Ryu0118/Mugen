@@ -10,7 +10,8 @@ protocol NotificationCenterClient: Sendable {
     func deliveredNotificationIdentifiers() async -> [String]
 }
 
-struct SystemNotificationCenter: NotificationCenterClient {
+// UNUserNotificationCenter is thread-safe but not annotated as Sendable.
+struct SystemNotificationCenter: NotificationCenterClient, @unchecked Sendable {
     let base: UNUserNotificationCenter
 
     func add(_ request: UNNotificationRequest) async throws {
