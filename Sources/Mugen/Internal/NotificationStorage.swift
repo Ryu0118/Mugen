@@ -57,7 +57,7 @@ struct NotificationStorage: @unchecked Sendable {
         case .fileStorage(let url):
             try FileManager.default
               .createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try combinedData.write(to: url)
+            try combinedData.write(to: url, options: .atomic)
         }
     }
 
